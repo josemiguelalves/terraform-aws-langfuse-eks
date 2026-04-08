@@ -32,7 +32,7 @@ provider "kubectl" {
 }
 
 module "langfuse" {
-  source = "../../" # replace with registry source once published
+  source  = "josemiguelalves/langfuse-eks/aws"
 
   # --- AWS context ---
   aws_account_id = var.aws_account_id

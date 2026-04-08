@@ -2,7 +2,7 @@
 
 Terraform module that deploys [Langfuse](https://langfuse.com) — the open-source LLM observability platform — on an existing Amazon EKS cluster.
 
-[![CI](https://github.com/YOUR_ORG/terraform-aws-langfuse-eks/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ORG/terraform-aws-langfuse-eks/actions/workflows/ci.yml)
+[![CI](https://github.com/josemiguelalves/terraform-aws-langfuse-eks/actions/workflows/ci.yml/badge.svg)](https://github.com/josemiguelalves/terraform-aws-langfuse-eks/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
@@ -77,7 +77,7 @@ The following must already exist in your AWS account before applying this module
 
 ```hcl
 module "langfuse" {
-  source  = "YOUR_ORG/langfuse-eks/aws"
+  source  = "josemiguelalves/langfuse-eks/aws"
   version = "~> 0.1"
 
   aws_account_id  = "123456789012"
@@ -105,7 +105,7 @@ module "langfuse" {
 
 ```hcl
 module "langfuse" {
-  source  = "YOUR_ORG/langfuse-eks/aws"
+  source  = "josemiguelalves/langfuse-eks/aws"
   version = "~> 0.1"
 
   # ... required variables above ...

@@ -5,7 +5,7 @@ Contributions are welcome! Please follow this workflow.
 ## Getting started
 
 ```bash
-git clone https://github.com/YOUR_ORG/terraform-aws-langfuse-eks
+git clone https://github.com/josemiguelalves/terraform-aws-langfuse-eks
 cd terraform-aws-langfuse-eks
 ```
 

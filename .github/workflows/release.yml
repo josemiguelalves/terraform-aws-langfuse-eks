@@ -32,7 +32,7 @@ jobs:
 
             ```hcl
             module "langfuse" {
-              source  = "YOUR_ORG/langfuse-eks/aws"
+              source  = "josemiguelalves/langfuse-eks/aws"
               version = "${{ steps.version.outputs.version }}"
             }
             ```
