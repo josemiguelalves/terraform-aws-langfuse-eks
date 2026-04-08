@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~1.9"
+
+      - name: terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: terraform init (module)
+        run: terraform init -backend=false
+
+      - name: terraform validate (module)
+        run: terraform validate
+
+      - name: terraform init (example/basic)
+        run: terraform init -backend=false
+        working-directory: examples/basic
+
+      - name: terraform validate (example/basic)
+        run: terraform validate
+        working-directory: examples/basic
+
+      - name: terraform init (example/complete)
+        run: terraform init -backend=false
+        working-directory: examples/complete
+
+      - name: terraform validate (example/complete)
+        run: terraform validate
+        working-directory: examples/complete
+
+  docs:
+    name: Check terraform-docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: terraform-docs/gh-actions@v1
+        with:
+          working-dir: .
+          output-file: README.md
+          output-method: inject
+          fail-on-diff: true
+
+  tflint:
+    name: TFLint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: terraform-linters/setup-tflint@v4
+
+      - name: Init TFLint
+        run: tflint --init
+
+      - name: Run TFLint
+        run: tflint -f compact
+
+  checkov:
+    name: Checkov security scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: .
+          framework: terraform
+          soft_fail: true
+          skip_check: >-
+            CKV_AWS_18,
+            CKV_AWS_144,
+            CKV2_AWS_6
