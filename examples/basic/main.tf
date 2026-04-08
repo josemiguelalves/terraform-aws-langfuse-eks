@@ -32,13 +32,13 @@ provider "kubectl" {
 }
 
 module "langfuse" {
-  source  = "josemiguelalves/langfuse-eks/aws"
+  # Use the registry source in production: "josemiguelalves/langfuse-eks/aws"
+  source = "../../"
 
   # --- AWS context ---
-  aws_account_id = var.aws_account_id
-  aws_region     = var.aws_region
-  identifier     = "myapp-prod"
-  environment    = "prod"
+  aws_region  = var.aws_region
+  identifier  = "myapp-prod"
+  environment = "prod"
 
   # --- EKS ---
   eks_cluster_name                = var.eks_cluster_name
@@ -47,8 +47,7 @@ module "langfuse" {
   node_instance_role_name         = var.node_instance_role_name
 
   # --- Networking ---
-  main_private_subnet_ids = var.main_private_subnet_ids
-  main_public_subnet_ids  = var.main_public_subnet_ids
+  main_public_subnet_ids = var.main_public_subnet_ids
 
   # --- Storage ---
   efs_file_system_id = var.efs_file_system_id

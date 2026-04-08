@@ -7,8 +7,7 @@
 # ------------------------------------------------------------------------------
 
 locals {
-  app_url      = "https://${var.dns_record_name}.${var.hosted_zone_name}"
-  cognito_fqdn = var.cognito_enabled ? "${var.cognito_domain}.auth.${var.aws_region}.amazoncognito.com" : ""
+  app_url = "https://${var.dns_record_name}.${var.hosted_zone_name}"
 }
 
 resource "aws_cognito_user_pool_client" "langfuse" {

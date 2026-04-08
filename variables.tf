@@ -2,11 +2,6 @@
 # Required – AWS context
 # ------------------------------------------------------------------------------
 
-variable "aws_account_id" {
-  description = "AWS account ID where resources will be deployed."
-  type        = string
-}
-
 variable "aws_region" {
   description = "AWS region where resources will be deployed (e.g. us-east-1)."
   type        = string
@@ -25,11 +20,6 @@ variable "environment" {
 # ------------------------------------------------------------------------------
 # Required – Networking
 # ------------------------------------------------------------------------------
-
-variable "main_private_subnet_ids" {
-  description = "Private subnet IDs. Used for internal EKS node placement."
-  type        = list(string)
-}
 
 variable "main_public_subnet_ids" {
   description = "Public subnet IDs for the internet-facing ALB."

@@ -1,7 +1,3 @@
-variable "aws_account_id" {
-  type = string
-}
-
 variable "aws_region" {
   type    = string
   default = "us-east-1"
@@ -21,10 +17,6 @@ variable "eks_openid_connect_provider_arn" {
 
 variable "node_instance_role_name" {
   type = string
-}
-
-variable "main_private_subnet_ids" {
-  type = list(string)
 }
 
 variable "main_public_subnet_ids" {
