@@ -15,20 +15,26 @@ locals {
     "${var.aws_region}c",
   ]
 
-  # Cognito auth annotations injected into the web ingress only when enabled.
-  cognito_auth_annotations = var.cognito_enabled ? <<-YAML
+  # try() guards against a plan-time error when cognito_enabled = false (count = 0).
+  _cognito_client_id = try(aws_cognito_user_pool_client.langfuse[0].id, "")
+
+  # Defined as a standalone heredoc so terraform-docs can parse this file correctly.
+  # A heredoc cannot be used as the true-branch of a ternary in all HCL parsers.
+  _cognito_annotations = <<-YAML
     alb.ingress.kubernetes.io/auth-type: cognito
     alb.ingress.kubernetes.io/auth-idp-cognito: '${jsonencode({
-      userPoolARN      = var.cognito_user_pool_arn
-      userPoolClientID = aws_cognito_user_pool_client.langfuse[0].id
-      userPoolDomain   = var.cognito_domain
+      userPoolARN      = coalesce(var.cognito_user_pool_arn, "")
+      userPoolClientID = local._cognito_client_id
+      userPoolDomain   = coalesce(var.cognito_domain, "")
     })}'
     alb.ingress.kubernetes.io/auth-on-unauthenticated-request: authenticate
     alb.ingress.kubernetes.io/auth-scope: openid email profile
     alb.ingress.kubernetes.io/auth-session-cookie-name: AWSELBAuthSessionCookie
     alb.ingress.kubernetes.io/auth-session-timeout: '3600'
   YAML
-  : ""
+
+  # Injected into the web ingress only when Cognito SSO is enabled.
+  cognito_auth_annotations = var.cognito_enabled ? local._cognito_annotations : ""
 
   common_tags = merge(
     {
