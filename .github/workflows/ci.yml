@@ -46,17 +46,24 @@ jobs:
         working-directory: examples/complete
 
   docs:
-    name: Check terraform-docs
+    name: Update terraform-docs
+    # Needs write access to commit the regenerated README.md back to the branch.
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Check out the actual branch head so the push lands on the right ref.
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - uses: terraform-docs/gh-actions@v1
         with:
           working-dir: .
           output-file: README.md
           output-method: inject
-          fail-on-diff: true
+          git-push: "true"
+          git-commit-message: "docs: auto-update terraform-docs [skip ci]"
 
   tflint:
     name: TFLint
