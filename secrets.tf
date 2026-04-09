@@ -57,11 +57,11 @@ resource "kubernetes_secret" "langfuse" {
   }
 
   data = {
-    "postgresql-password"  = random_password.postgresql.result
-    "redis-password"       = random_password.redis.result
-    "clickhouse-password"  = random_password.clickhouse.result
-    "salt"                 = random_bytes.salt.base64
-    "nextauth-secret"      = random_bytes.nextauth_secret.base64
-    "encryption-key"       = random_bytes.encryption_key.hex
+    "postgresql-password" = random_password.postgresql.result
+    "redis-password"      = random_password.redis.result
+    "clickhouse-password" = random_password.clickhouse.result
+    "salt"                = random_bytes.salt.base64
+    "nextauth-secret"     = random_bytes.nextauth_secret.base64
+    "encryption-key"      = random_bytes.encryption_key.hex
   }
 }

@@ -2,10 +2,10 @@ locals {
   name      = "langfuse"
   namespace = "langfuse"
 
-  service_account    = "langfuse"
-  cluster_user       = "langfuse-cluster-user"
-  chart_version      = var.langfuse_chart_version
-  chart_repository   = "https://langfuse.github.io/langfuse-k8s"
+  service_account  = "langfuse"
+  cluster_user     = "langfuse-cluster-user"
+  chart_version    = var.langfuse_chart_version
+  chart_repository = "https://langfuse.github.io/langfuse-k8s"
 
   s3_bucket_name = var.s3_bucket_name != null ? var.s3_bucket_name : "${var.identifier}-langfuse"
 

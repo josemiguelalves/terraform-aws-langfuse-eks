@@ -56,11 +56,11 @@ resource "kubernetes_persistent_volume" "postgresql" {
   }
 
   spec {
-    capacity                          = { storage = "8Gi" }
-    volume_mode                       = "Filesystem"
-    access_modes                      = ["ReadWriteOnce"]
-    persistent_volume_reclaim_policy  = "Retain"
-    storage_class_name                = var.storage_class_name
+    capacity                         = { storage = "8Gi" }
+    volume_mode                      = "Filesystem"
+    access_modes                     = ["ReadWriteOnce"]
+    persistent_volume_reclaim_policy = "Retain"
+    storage_class_name               = var.storage_class_name
 
     persistent_volume_source {
       csi {
@@ -82,11 +82,11 @@ resource "kubernetes_persistent_volume" "redis" {
   }
 
   spec {
-    capacity                          = { storage = "8Gi" }
-    volume_mode                       = "Filesystem"
-    access_modes                      = ["ReadWriteOnce"]
-    persistent_volume_reclaim_policy  = "Retain"
-    storage_class_name                = var.storage_class_name
+    capacity                         = { storage = "8Gi" }
+    volume_mode                      = "Filesystem"
+    access_modes                     = ["ReadWriteOnce"]
+    persistent_volume_reclaim_policy = "Retain"
+    storage_class_name               = var.storage_class_name
 
     persistent_volume_source {
       csi {
