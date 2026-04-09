@@ -18,15 +18,20 @@ locals {
   # try() guards against a plan-time error when cognito_enabled = false (count = 0).
   _cognito_client_id = try(aws_cognito_user_pool_client.langfuse[0].id, "")
 
-  # Defined as a standalone heredoc so terraform-docs can parse this file correctly.
-  # A heredoc cannot be used as the true-branch of a ternary in all HCL parsers.
+  # Pre-computed so the heredoc below contains only a simple ${local.ref}.
+  # Nested HCL objects inside ${} template expressions confuse terraform fmt:
+  # it mistakes the closing } for the end of the locals {} block.
+  _cognito_idp_config = jsonencode({
+    userPoolARN      = coalesce(var.cognito_user_pool_arn, "")
+    userPoolClientID = local._cognito_client_id
+    userPoolDomain   = coalesce(var.cognito_domain, "")
+  })
+
+  # Defined as a standalone local (not inline in a ternary) so terraform-docs
+  # can parse this file without "Missing false expression" parse errors.
   _cognito_annotations = <<-YAML
     alb.ingress.kubernetes.io/auth-type: cognito
-    alb.ingress.kubernetes.io/auth-idp-cognito: '${jsonencode({
-      userPoolARN      = coalesce(var.cognito_user_pool_arn, "")
-      userPoolClientID = local._cognito_client_id
-      userPoolDomain   = coalesce(var.cognito_domain, "")
-    })}'
+    alb.ingress.kubernetes.io/auth-idp-cognito: '${local._cognito_idp_config}'
     alb.ingress.kubernetes.io/auth-on-unauthenticated-request: authenticate
     alb.ingress.kubernetes.io/auth-scope: openid email profile
     alb.ingress.kubernetes.io/auth-session-cookie-name: AWSELBAuthSessionCookie
