@@ -50,7 +50,7 @@ resource "aws_efs_access_point" "redis" {
 # PVCs deterministically.
 # ------------------------------------------------------------------------------
 
-resource "kubernetes_persistent_volume" "postgresql" {
+resource "kubernetes_persistent_volume_v1" "postgresql" {
   metadata {
     name = "data-langfuse-postgresql-0"
   }
@@ -76,7 +76,7 @@ resource "kubernetes_persistent_volume" "postgresql" {
   }
 }
 
-resource "kubernetes_persistent_volume" "redis" {
+resource "kubernetes_persistent_volume_v1" "redis" {
   metadata {
     name = "valkey-data-langfuse-redis-primary-0"
   }

@@ -48,7 +48,7 @@ resource "random_bytes" "encryption_key" {
 # The Helm chart references these via secretKeyRef.
 # ------------------------------------------------------------------------------
 
-resource "kubernetes_secret" "langfuse" {
+resource "kubernetes_secret_v1" "langfuse" {
   depends_on = [kubernetes_namespace_v1.langfuse]
 
   metadata {

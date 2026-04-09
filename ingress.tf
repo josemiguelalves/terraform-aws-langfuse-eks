@@ -55,8 +55,8 @@ resource "kubectl_manifest" "langfuse_web_ingress" {
   depends_on = [
     helm_release.langfuse,
     kubernetes_namespace_v1.langfuse,
-    kubernetes_persistent_volume.postgresql,
-    kubernetes_persistent_volume.redis,
+    kubernetes_persistent_volume_v1.postgresql,
+    kubernetes_persistent_volume_v1.redis,
     aws_cognito_user_pool_client.langfuse,
   ]
 
